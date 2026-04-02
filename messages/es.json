@@ -1,0 +1,36 @@
+{
+	"common": {
+		"dashboard": "Panel",
+		"users": "Usuarios",
+		"settings": "Configuracion",
+		"profile": "Perfil",
+		"logout": "Cerrar sesion",
+		"search": "Buscar",
+		"save": "Guardar",
+		"cancel": "Cancelar",
+		"delete": "Eliminar",
+		"confirm": "Confirmar"
+	},
+	"auth": {
+		"login": "Iniciar sesion",
+		"signup": "Registrarse",
+		"forgotPassword": "Olvidaste tu contrasena",
+		"resetPassword": "Restablecer contrasena",
+		"email": "Correo electronico",
+		"password": "Contrasena",
+		"confirmPassword": "Confirmar contrasena"
+	},
+	"dashboard": {
+		"totalUsers": "Total de usuarios",
+		"revenue": "Ingresos",
+		"activeSessions": "Sesiones activas",
+		"conversionRate": "Tasa de conversion",
+		"recentUsers": "Usuarios recientes"
+	},
+	"errors": {
+		"required": "Este campo es obligatorio",
+		"invalidEmail": "Ingresa un correo electronico valido",
+		"passwordTooShort": "La contrasena debe tener al menos 8 caracteres",
+		"passwordsDoNotMatch": "Las contrasenas no coinciden"
+	}
+}
