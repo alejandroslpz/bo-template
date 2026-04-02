@@ -11,6 +11,7 @@ import {
 	Settings2Icon,
 	TerminalIcon,
 	TerminalSquareIcon,
+	UsersIcon,
 } from "lucide-react";
 import type * as React from "react";
 import { NavMain } from "@/components/nav-main";
@@ -44,6 +45,12 @@ const data = {
 		},
 	],
 	navMain: [
+		{
+			title: "Users",
+			url: "/users",
+			icon: <UsersIcon />,
+			items: [],
+		},
 		{
 			title: "Playground",
 			url: "#",
