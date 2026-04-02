@@ -9,6 +9,7 @@ import {
 import type * as React from "react";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
+import { OrgSwitcher } from "@/components/org-switcher";
 import {
 	Sidebar,
 	SidebarContent,
@@ -42,7 +43,11 @@ const data = {
 			title: "Settings",
 			url: "#",
 			icon: <Settings2Icon />,
-			items: [{ title: "General", url: "/profile" }],
+			items: [
+				{ title: "General", url: "/settings/general" },
+				{ title: "Appearance", url: "/settings/appearance" },
+				{ title: "Notifications", url: "/settings/notifications" },
+			],
 		},
 	],
 };
@@ -59,7 +64,9 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
-			<SidebarHeader />
+			<SidebarHeader>
+				<OrgSwitcher />
+			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={data.navMain} />
 			</SidebarContent>
