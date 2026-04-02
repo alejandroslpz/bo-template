@@ -1,4 +1,18 @@
+import {
+	Activity,
+	DollarSign,
+	TrendingDown,
+	TrendingUp,
+	Users,
+} from "lucide-react";
 import { DataTable } from "@/components/data-table";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { columns, type User } from "./columns";
 
 const mockUsers: User[] = [
@@ -200,21 +214,97 @@ const mockUsers: User[] = [
 	},
 ];
 
+const stats = [
+	{
+		title: "Total Users",
+		value: "1,234",
+		change: "+12%",
+		changeLabel: "from last month",
+		trend: "up" as const,
+		icon: Users,
+	},
+	{
+		title: "Revenue",
+		value: "$45,231",
+		change: "+8.2%",
+		changeLabel: "from last month",
+		trend: "up" as const,
+		icon: DollarSign,
+	},
+	{
+		title: "Active Sessions",
+		value: "573",
+		change: "+3.1%",
+		changeLabel: "from last hour",
+		trend: "up" as const,
+		icon: Activity,
+	},
+	{
+		title: "Conversion Rate",
+		value: "12.5%",
+		change: "-0.4%",
+		changeLabel: "from last month",
+		trend: "down" as const,
+		icon: TrendingUp,
+	},
+];
+
 export default function DashboardPage() {
 	return (
-		<div className="space-y-4">
+		<div className="space-y-6">
 			<div>
-				<h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+				<h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
 				<p className="text-muted-foreground">
-					Sample data table with sorting, filtering, and pagination.
+					Overview of your application metrics and recent activity.
 				</p>
 			</div>
-			<DataTable
-				columns={columns}
-				data={mockUsers}
-				searchKey="name"
-				searchPlaceholder="Search by name..."
-			/>
+
+			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+				{stats.map((stat) => (
+					<Card key={stat.title}>
+						<CardHeader className="flex flex-row items-center justify-between pb-2">
+							<CardDescription className="text-sm font-medium">
+								{stat.title}
+							</CardDescription>
+							<stat.icon className="text-muted-foreground size-4" />
+						</CardHeader>
+						<CardContent>
+							<div className="text-2xl font-bold">{stat.value}</div>
+							<p className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
+								{stat.trend === "up" ? (
+									<>
+										<TrendingUp className="size-3 text-emerald-500" />
+										<span className="text-emerald-500">{stat.change}</span>
+									</>
+								) : (
+									<>
+										<TrendingDown className="size-3 text-red-500" />
+										<span className="text-red-500">{stat.change}</span>
+									</>
+								)}
+								<span>{stat.changeLabel}</span>
+							</p>
+						</CardContent>
+					</Card>
+				))}
+			</div>
+
+			<Card>
+				<CardHeader>
+					<CardTitle>Recent Users</CardTitle>
+					<CardDescription>
+						A list of all registered users with their current status.
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<DataTable
+						columns={columns}
+						data={mockUsers}
+						searchKey="name"
+						searchPlaceholder="Search by name..."
+					/>
+				</CardContent>
+			</Card>
 		</div>
 	);
 }
