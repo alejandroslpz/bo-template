@@ -6,8 +6,12 @@ import {
 	ChevronsUpDownIcon,
 	CreditCardIcon,
 	LogOutIcon,
+	MoonIcon,
 	SparklesIcon,
+	SunIcon,
 } from "lucide-react";
+import { useTheme } from "next-themes";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -36,6 +40,13 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
+	const { theme, setTheme } = useTheme();
+
+	function cycleTheme() {
+		const next =
+			theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
+		setTheme(next);
+	}
 
 	const initials = user.name
 		.split(" ")
@@ -107,9 +118,18 @@ export function NavUser({
 								<BellIcon />
 								Notifications
 							</DropdownMenuItem>
+							<DropdownMenuItem onClick={cycleTheme}>
+								{theme === "dark" ? <MoonIcon /> : <SunIcon />}
+								Theme: {theme ?? "system"}
+							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={() => logout()}>
+						<DropdownMenuItem
+							onClick={() => {
+								toast.info("Signing out...");
+								logout();
+							}}
+						>
 							<LogOutIcon />
 							Log out
 						</DropdownMenuItem>
