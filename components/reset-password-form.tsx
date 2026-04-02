@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
 	Field,
 	FieldDescription,
+	FieldError,
 	FieldGroup,
 	FieldLabel,
 } from "@/components/ui/field";
@@ -49,6 +50,7 @@ export function ResetPasswordForm({
 									required
 									disabled={pending}
 								/>
+								<FieldError>{state.fieldErrors?.password}</FieldError>
 							</Field>
 							<Field>
 								<FieldLabel htmlFor="confirm-password">
@@ -61,6 +63,10 @@ export function ResetPasswordForm({
 									required
 									disabled={pending}
 								/>
+								<FieldError>
+									{state.fieldErrors?.["confirm-password"]}
+								</FieldError>
+								<FieldError>{state.fieldErrors?._root}</FieldError>
 								<FieldDescription>
 									Must be at least 8 characters long.
 								</FieldDescription>

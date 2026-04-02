@@ -10,7 +10,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+	Field,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
 	type AuthResult,
@@ -74,6 +79,7 @@ export function ProfileForm({
 									required
 									disabled={profilePending}
 								/>
+								<FieldError>{profileState.fieldErrors?.full_name}</FieldError>
 							</Field>
 							{profileState.error && (
 								<p className="text-destructive text-sm">{profileState.error}</p>
@@ -108,6 +114,7 @@ export function ProfileForm({
 									required
 									disabled={passwordPending}
 								/>
+								<FieldError>{passwordState.fieldErrors?.password}</FieldError>
 							</Field>
 							<Field>
 								<FieldLabel htmlFor="confirm-password">
@@ -121,6 +128,10 @@ export function ProfileForm({
 									required
 									disabled={passwordPending}
 								/>
+								<FieldError>
+									{passwordState.fieldErrors?.["confirm-password"]}
+								</FieldError>
+								<FieldError>{passwordState.fieldErrors?._root}</FieldError>
 							</Field>
 							{passwordState.error && (
 								<p className="text-destructive text-sm">

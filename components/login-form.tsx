@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
 	Field,
 	FieldDescription,
+	FieldError,
 	FieldGroup,
 	FieldLabel,
 	FieldSeparator,
@@ -62,6 +63,7 @@ export function LoginForm({
 									required
 									disabled={pending}
 								/>
+								<FieldError>{state.fieldErrors?.email}</FieldError>
 							</Field>
 							<Field>
 								<div className="flex items-center">
@@ -80,6 +82,7 @@ export function LoginForm({
 									required
 									disabled={pending}
 								/>
+								<FieldError>{state.fieldErrors?.password}</FieldError>
 							</Field>
 							<Field>
 								<Button type="submit" disabled={pending}>

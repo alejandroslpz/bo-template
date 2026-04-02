@@ -13,6 +13,7 @@ import {
 
 export type AuthResult = {
 	error?: string;
+	fieldErrors?: Record<string, string>;
 	success?: string;
 };
 
@@ -26,7 +27,12 @@ export async function login(
 	});
 
 	if (!result.success) {
-		return { error: result.error.issues[0].message };
+		const fieldErrors: Record<string, string> = {};
+		for (const issue of result.error.issues) {
+			const key = issue.path[0]?.toString();
+			if (key && !fieldErrors[key]) fieldErrors[key] = issue.message;
+		}
+		return { fieldErrors };
 	}
 
 	const supabase = await createClient();
@@ -54,7 +60,12 @@ export async function signup(
 	});
 
 	if (!result.success) {
-		return { error: result.error.issues[0].message };
+		const fieldErrors: Record<string, string> = {};
+		for (const issue of result.error.issues) {
+			const key = issue.path[0]?.toString() ?? "_root";
+			if (!fieldErrors[key]) fieldErrors[key] = issue.message;
+		}
+		return { fieldErrors };
 	}
 
 	const supabase = await createClient();
@@ -86,7 +97,12 @@ export async function forgotPassword(
 	});
 
 	if (!result.success) {
-		return { error: result.error.issues[0].message };
+		const fieldErrors: Record<string, string> = {};
+		for (const issue of result.error.issues) {
+			const key = issue.path[0]?.toString();
+			if (key && !fieldErrors[key]) fieldErrors[key] = issue.message;
+		}
+		return { fieldErrors };
 	}
 
 	const supabase = await createClient();
@@ -117,7 +133,12 @@ export async function updateProfile(
 	});
 
 	if (!result.success) {
-		return { error: result.error.issues[0].message };
+		const fieldErrors: Record<string, string> = {};
+		for (const issue of result.error.issues) {
+			const key = issue.path[0]?.toString();
+			if (key && !fieldErrors[key]) fieldErrors[key] = issue.message;
+		}
+		return { fieldErrors };
 	}
 
 	const supabase = await createClient();
@@ -143,7 +164,12 @@ export async function resetPassword(
 	});
 
 	if (!result.success) {
-		return { error: result.error.issues[0].message };
+		const fieldErrors: Record<string, string> = {};
+		for (const issue of result.error.issues) {
+			const key = issue.path[0]?.toString() ?? "_root";
+			if (!fieldErrors[key]) fieldErrors[key] = issue.message;
+		}
+		return { fieldErrors };
 	}
 
 	const supabase = await createClient();

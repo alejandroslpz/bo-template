@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
 	Field,
 	FieldDescription,
+	FieldError,
 	FieldGroup,
 	FieldLabel,
 } from "@/components/ui/field";
@@ -55,6 +56,7 @@ export function ForgotPasswordForm({
 									required
 									disabled={pending}
 								/>
+								<FieldError>{state.fieldErrors?.email}</FieldError>
 							</Field>
 							<Field>
 								<Button type="submit" disabled={pending}>
