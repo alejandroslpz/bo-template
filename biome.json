@@ -6,7 +6,15 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": false,
+		"includes": [
+			"**/*.ts",
+			"**/*.tsx",
+			"**/*.js",
+			"**/*.jsx",
+			"**/*.json",
+			"**/*.mjs"
+		]
 	},
 	"overrides": [
 		{
@@ -25,6 +33,9 @@
 					},
 					"correctness": {
 						"useExhaustiveDependencies": "off"
+					},
+					"style": {
+						"useImportType": "off"
 					}
 				}
 			}
@@ -49,6 +60,10 @@
 		"rules": {
 			"recommended": true
 		}
+	},
+	"css": {
+		"linter": { "enabled": false },
+		"formatter": { "enabled": false }
 	},
 	"javascript": {
 		"formatter": {
