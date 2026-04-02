@@ -1,17 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
 	Field,
 	FieldDescription,
 	FieldError,
 	FieldGroup,
-	FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { type AuthResult, forgotPassword } from "@/lib/supabase/actions";
 import { cn } from "@/lib/utils";
 
@@ -26,58 +24,60 @@ export function ForgotPasswordForm({
 
 	return (
 		<div className={cn("flex flex-col gap-6", className)} {...props}>
-			<Card className="overflow-hidden p-0">
-				<CardContent className="grid p-0 md:grid-cols-2">
-					<form action={formAction} className="p-6 md:p-8">
-						<FieldGroup>
-							<div className="flex flex-col items-center gap-2 text-center">
-								<h1 className="text-2xl font-bold">Forgot your password?</h1>
-								<p className="text-muted-foreground text-balance">
-									Enter your email and we&apos;ll send you a reset link
-								</p>
-							</div>
-							{state.error && (
-								<p className="text-destructive text-center text-sm">
-									{state.error}
-								</p>
-							)}
-							{state.success && (
-								<p className="text-center text-sm text-green-600">
-									{state.success}
-								</p>
-							)}
-							<Field>
-								<FieldLabel htmlFor="email">Email</FieldLabel>
-								<Input
-									id="email"
-									name="email"
-									type="email"
-									placeholder="m@example.com"
-									required
-									disabled={pending}
-								/>
-								<FieldError>{state.fieldErrors?.email}</FieldError>
-							</Field>
-							<Field>
-								<Button type="submit" disabled={pending}>
-									{pending ? "Sending..." : "Send Reset Link"}
-								</Button>
-							</Field>
-							<FieldDescription className="text-center">
-								<a href="/login">Back to login</a>
-							</FieldDescription>
-						</FieldGroup>
-					</form>
-					<div className="bg-muted relative hidden md:block">
-						<Image
-							src="/placeholder.svg"
-							alt="Forgot password illustration"
-							fill
-							className="object-cover dark:brightness-[0.2] dark:grayscale"
+			<div className="flex flex-col gap-2">
+				<h1 className="text-2xl font-bold tracking-tight">
+					Forgot your password?
+				</h1>
+				<p className="text-muted-foreground text-sm">
+					Enter your email and we&apos;ll send you a reset link
+				</p>
+			</div>
+
+			{state.error && (
+				<p className="bg-destructive/10 text-destructive rounded-md px-3 py-2 text-center text-sm">
+					{state.error}
+				</p>
+			)}
+			{state.success && (
+				<p className="rounded-md bg-green-500/10 px-3 py-2 text-center text-sm text-green-600 dark:text-green-400">
+					{state.success}
+				</p>
+			)}
+
+			<form action={formAction}>
+				<FieldGroup>
+					<Field>
+						<Label htmlFor="email">Email</Label>
+						<Input
+							id="email"
+							name="email"
+							type="email"
+							placeholder="name@example.com"
+							required
+							disabled={pending}
 						/>
-					</div>
-				</CardContent>
-			</Card>
+						<FieldError>{state.fieldErrors?.email}</FieldError>
+					</Field>
+					<Field>
+						<Button type="submit" className="w-full" disabled={pending}>
+							{pending ? "Sending..." : "Send reset link"}
+						</Button>
+					</Field>
+				</FieldGroup>
+			</form>
+
+			<div className="text-center text-sm">
+				<a
+					href="/login"
+					className="text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
+				>
+					Back to sign in
+				</a>
+			</div>
+
+			<FieldDescription className="text-muted-foreground/70 text-center text-xs">
+				We&apos;ll send a password reset link to your email address.
+			</FieldDescription>
 		</div>
 	);
 }
