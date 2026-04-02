@@ -6,6 +6,7 @@ import {
 	Users,
 } from "lucide-react";
 import { DataTable } from "@/components/data-table";
+import { ExportButton } from "@/components/export-button";
 import {
 	Card,
 	CardContent,
@@ -290,11 +291,23 @@ export default function DashboardPage() {
 			</div>
 
 			<Card>
-				<CardHeader>
-					<CardTitle>Recent Users</CardTitle>
-					<CardDescription>
-						A list of all registered users with their current status.
-					</CardDescription>
+				<CardHeader className="flex flex-row items-center justify-between">
+					<div className="space-y-1">
+						<CardTitle>Recent Users</CardTitle>
+						<CardDescription>
+							A list of all registered users with their current status.
+						</CardDescription>
+					</div>
+					<ExportButton
+						data={mockUsers}
+						columns={[
+							{ key: "name", header: "Name" },
+							{ key: "email", header: "Email" },
+							{ key: "status", header: "Status" },
+							{ key: "createdAt", header: "Created At" },
+						]}
+						filename="users"
+					/>
 				</CardHeader>
 				<CardContent>
 					<DataTable
