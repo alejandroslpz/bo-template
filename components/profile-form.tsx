@@ -1,7 +1,9 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import Image from "next/image";
+import { useActionState, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -20,15 +22,18 @@ import { Input } from "@/components/ui/input";
 import {
 	type AuthResult,
 	resetPassword,
+	updateAvatar,
 	updateProfile,
 } from "@/lib/supabase/actions";
 
 export function ProfileForm({
 	fullName,
 	email,
+	avatarUrl,
 }: {
 	fullName: string;
 	email: string;
+	avatarUrl: string;
 }) {
 	const [profileState, profileAction, profilePending] = useActionState<
 		AuthResult,
@@ -52,8 +57,51 @@ export function ProfileForm({
 		}
 	}, [passwordState]);
 
+	const [currentAvatar, setCurrentAvatar] = useState(avatarUrl);
+
+	const handleAvatarUpload = useCallback(async (url: string) => {
+		const result = await updateAvatar(url);
+		if (result.error) {
+			toast.error(result.error);
+			return;
+		}
+		setCurrentAvatar(url);
+		toast.success("Avatar updated successfully.");
+	}, []);
+
 	return (
 		<div className="space-y-6">
+			<Card>
+				<CardHeader>
+					<CardTitle>Avatar</CardTitle>
+					<CardDescription>
+						Upload a profile picture. JPG, PNG, GIF, or WEBP up to 5MB.
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<div className="flex items-start gap-6">
+						{currentAvatar && (
+							<Image
+								src={currentAvatar}
+								alt="Current avatar"
+								width={80}
+								height={80}
+								className="h-20 w-20 rounded-full object-cover"
+								unoptimized
+							/>
+						)}
+						<div className="flex-1">
+							<FileUpload
+								bucket="uploads"
+								onUpload={handleAvatarUpload}
+								accept="image/jpeg,image/png,image/gif,image/webp"
+								maxSize={5 * 1024 * 1024}
+							/>
+						</div>
+					</div>
+				</CardContent>
+			</Card>
+
 			<Card>
 				<CardHeader>
 					<CardTitle>Profile Information</CardTitle>

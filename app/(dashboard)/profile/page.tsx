@@ -9,6 +9,7 @@ export default async function ProfilePage() {
 
 	const fullName = user?.user_metadata?.full_name ?? "";
 	const email = user?.email ?? "";
+	const avatarUrl = user?.user_metadata?.avatar_url ?? "";
 
 	return (
 		<div className="mx-auto w-full max-w-2xl space-y-6">
@@ -18,7 +19,7 @@ export default async function ProfilePage() {
 					Manage your account settings and change your password.
 				</p>
 			</div>
-			<ProfileForm fullName={fullName} email={email} />
+			<ProfileForm fullName={fullName} email={email} avatarUrl={avatarUrl} />
 		</div>
 	);
 }

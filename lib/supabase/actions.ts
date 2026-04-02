@@ -154,6 +154,24 @@ export async function updateProfile(
 	return { success: "Profile updated successfully." };
 }
 
+export async function updateAvatar(avatarUrl: string): Promise<AuthResult> {
+	if (!avatarUrl) {
+		return { error: "No avatar URL provided." };
+	}
+
+	const supabase = await createClient();
+
+	const { error } = await supabase.auth.updateUser({
+		data: { avatar_url: avatarUrl },
+	});
+
+	if (error) {
+		return { error: error.message };
+	}
+
+	return { success: "Avatar updated successfully." };
+}
+
 export async function resetPassword(
 	_prevState: AuthResult,
 	formData: FormData,
