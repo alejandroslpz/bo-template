@@ -5,6 +5,9 @@ import {
 	TrendingUp,
 	Users,
 } from "lucide-react";
+import { ActivityFeed } from "@/components/activity-feed";
+import { RevenueChart } from "@/components/charts/revenue-chart";
+import { UsersChart } from "@/components/charts/users-chart";
 import { DataTable } from "@/components/data-table";
 import { ExportButton } from "@/components/export-button";
 import {
@@ -290,34 +293,62 @@ export default function DashboardPage() {
 				))}
 			</div>
 
-			<Card>
-				<CardHeader className="flex flex-row items-center justify-between">
-					<div className="space-y-1">
-						<CardTitle>Recent Users</CardTitle>
+			<div className="grid gap-4 md:grid-cols-2">
+				<Card>
+					<CardHeader>
+						<CardTitle>Revenue Overview</CardTitle>
 						<CardDescription>
-							A list of all registered users with their current status.
+							Monthly revenue for the last 6 months.
 						</CardDescription>
-					</div>
-					<ExportButton
-						data={mockUsers}
-						columns={[
-							{ key: "name", header: "Name" },
-							{ key: "email", header: "Email" },
-							{ key: "status", header: "Status" },
-							{ key: "createdAt", header: "Created At" },
-						]}
-						filename="users"
-					/>
-				</CardHeader>
-				<CardContent>
-					<DataTable
-						columns={columns}
-						data={mockUsers}
-						searchKey="name"
-						searchPlaceholder="Search by name..."
-					/>
-				</CardContent>
-			</Card>
+					</CardHeader>
+					<CardContent>
+						<RevenueChart />
+					</CardContent>
+				</Card>
+				<Card>
+					<CardHeader>
+						<CardTitle>Users by Status</CardTitle>
+						<CardDescription>
+							Distribution of users by their current status.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<UsersChart />
+					</CardContent>
+				</Card>
+			</div>
+
+			<div className="grid gap-4 lg:grid-cols-3">
+				<Card className="lg:col-span-2">
+					<CardHeader className="flex flex-row items-center justify-between">
+						<div className="space-y-1">
+							<CardTitle>Recent Users</CardTitle>
+							<CardDescription>
+								A list of all registered users with their current status.
+							</CardDescription>
+						</div>
+						<ExportButton
+							data={mockUsers}
+							columns={[
+								{ key: "name", header: "Name" },
+								{ key: "email", header: "Email" },
+								{ key: "status", header: "Status" },
+								{ key: "createdAt", header: "Created At" },
+							]}
+							filename="users"
+						/>
+					</CardHeader>
+					<CardContent>
+						<DataTable
+							columns={columns}
+							data={mockUsers}
+							searchKey="name"
+							searchPlaceholder="Search by name..."
+						/>
+					</CardContent>
+				</Card>
+				<ActivityFeed />
+			</div>
 		</div>
 	);
 }
