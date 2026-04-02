@@ -1,5 +1,6 @@
 "use server";
 
+import { logAction } from "@/lib/supabase/audit";
 import { getAuthUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
 import type { UserRole } from "@/lib/types/roles";
@@ -84,6 +85,13 @@ export async function updateUserRole(
 		return { error: error.message };
 	}
 
+	await logAction({
+		action: "user.role_updated",
+		entityType: "user",
+		entityId: result.data.userId,
+		metadata: { newRole: result.data.role },
+	});
+
 	return { success: "User role updated successfully." };
 }
 
@@ -119,6 +127,12 @@ export async function deleteUser(
 	if (error) {
 		return { error: error.message };
 	}
+
+	await logAction({
+		action: "user.deleted",
+		entityType: "user",
+		entityId: result.data.userId,
+	});
 
 	return { success: "User deleted successfully." };
 }

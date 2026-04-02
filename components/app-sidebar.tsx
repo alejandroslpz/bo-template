@@ -2,6 +2,7 @@
 
 import {
 	LayoutDashboardIcon,
+	ScrollTextIcon,
 	Settings2Icon,
 	UsersIcon,
 } from "lucide-react";
@@ -32,12 +33,16 @@ const data = {
 			items: [],
 		},
 		{
+			title: "Audit Log",
+			url: "/audit",
+			icon: <ScrollTextIcon />,
+			items: [],
+		},
+		{
 			title: "Settings",
 			url: "#",
 			icon: <Settings2Icon />,
-			items: [
-				{ title: "General", url: "/profile" },
-			],
+			items: [{ title: "General", url: "/profile" }],
 		},
 	],
 };
