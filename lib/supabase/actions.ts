@@ -3,6 +3,13 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import {
+	forgotPasswordSchema,
+	loginSchema,
+	resetPasswordSchema,
+	signupSchema,
+	updateProfileSchema,
+} from "@/lib/validations/auth";
 
 export type AuthResult = {
 	error?: string;
@@ -13,18 +20,20 @@ export async function login(
 	_prevState: AuthResult,
 	formData: FormData,
 ): Promise<AuthResult> {
-	const supabase = await createClient();
+	const result = loginSchema.safeParse({
+		email: formData.get("email"),
+		password: formData.get("password"),
+	});
 
-	const email = formData.get("email") as string;
-	const password = formData.get("password") as string;
-
-	if (!email || !password) {
-		return { error: "Email and password are required." };
+	if (!result.success) {
+		return { error: result.error.issues[0].message };
 	}
 
+	const supabase = await createClient();
+
 	const { error } = await supabase.auth.signInWithPassword({
-		email,
-		password,
+		email: result.data.email,
+		password: result.data.password,
 	});
 
 	if (error) {
@@ -38,27 +47,21 @@ export async function signup(
 	_prevState: AuthResult,
 	formData: FormData,
 ): Promise<AuthResult> {
+	const result = signupSchema.safeParse({
+		email: formData.get("email"),
+		password: formData.get("password"),
+		"confirm-password": formData.get("confirm-password"),
+	});
+
+	if (!result.success) {
+		return { error: result.error.issues[0].message };
+	}
+
 	const supabase = await createClient();
 
-	const email = formData.get("email") as string;
-	const password = formData.get("password") as string;
-	const confirmPassword = formData.get("confirm-password") as string;
-
-	if (!email || !password || !confirmPassword) {
-		return { error: "All fields are required." };
-	}
-
-	if (password.length < 8) {
-		return { error: "Password must be at least 8 characters long." };
-	}
-
-	if (password !== confirmPassword) {
-		return { error: "Passwords do not match." };
-	}
-
 	const { error } = await supabase.auth.signUp({
-		email,
-		password,
+		email: result.data.email,
+		password: result.data.password,
 	});
 
 	if (error) {
@@ -78,20 +81,25 @@ export async function forgotPassword(
 	_prevState: AuthResult,
 	formData: FormData,
 ): Promise<AuthResult> {
+	const result = forgotPasswordSchema.safeParse({
+		email: formData.get("email"),
+	});
+
+	if (!result.success) {
+		return { error: result.error.issues[0].message };
+	}
+
 	const supabase = await createClient();
 	const headerStore = await headers();
 
-	const email = formData.get("email") as string;
-
-	if (!email) {
-		return { error: "Email is required." };
-	}
-
 	const origin = headerStore.get("origin");
 
-	const { error } = await supabase.auth.resetPasswordForEmail(email, {
-		redirectTo: `${origin}/callback?next=/reset-password`,
-	});
+	const { error } = await supabase.auth.resetPasswordForEmail(
+		result.data.email,
+		{
+			redirectTo: `${origin}/callback?next=/reset-password`,
+		},
+	);
 
 	if (error) {
 		return { error: error.message };
@@ -104,16 +112,18 @@ export async function updateProfile(
 	_prevState: AuthResult,
 	formData: FormData,
 ): Promise<AuthResult> {
-	const supabase = await createClient();
+	const result = updateProfileSchema.safeParse({
+		full_name: formData.get("full_name"),
+	});
 
-	const fullName = formData.get("full_name") as string;
-
-	if (!fullName) {
-		return { error: "Full name is required." };
+	if (!result.success) {
+		return { error: result.error.issues[0].message };
 	}
 
+	const supabase = await createClient();
+
 	const { error } = await supabase.auth.updateUser({
-		data: { full_name: fullName },
+		data: { full_name: result.data.full_name },
 	});
 
 	if (error) {
@@ -127,24 +137,20 @@ export async function resetPassword(
 	_prevState: AuthResult,
 	formData: FormData,
 ): Promise<AuthResult> {
+	const result = resetPasswordSchema.safeParse({
+		password: formData.get("password"),
+		"confirm-password": formData.get("confirm-password"),
+	});
+
+	if (!result.success) {
+		return { error: result.error.issues[0].message };
+	}
+
 	const supabase = await createClient();
 
-	const password = formData.get("password") as string;
-	const confirmPassword = formData.get("confirm-password") as string;
-
-	if (!password || !confirmPassword) {
-		return { error: "All fields are required." };
-	}
-
-	if (password.length < 8) {
-		return { error: "Password must be at least 8 characters long." };
-	}
-
-	if (password !== confirmPassword) {
-		return { error: "Passwords do not match." };
-	}
-
-	const { error } = await supabase.auth.updateUser({ password });
+	const { error } = await supabase.auth.updateUser({
+		password: result.data.password,
+	});
 
 	if (error) {
 		return { error: error.message };
