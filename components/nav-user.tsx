@@ -10,6 +10,7 @@ import {
 	SparklesIcon,
 	SunIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -41,6 +42,7 @@ export function NavUser({
 }) {
 	const { isMobile } = useSidebar();
 	const { theme, setTheme } = useTheme();
+	const router = useRouter();
 
 	function cycleTheme() {
 		const next =
@@ -106,7 +108,7 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem>
+							<DropdownMenuItem onClick={() => router.push("/profile")}>
 								<BadgeCheckIcon />
 								Account
 							</DropdownMenuItem>

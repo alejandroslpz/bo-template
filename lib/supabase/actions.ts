@@ -100,6 +100,29 @@ export async function forgotPassword(
 	return { success: "Check your email for a password reset link." };
 }
 
+export async function updateProfile(
+	_prevState: AuthResult,
+	formData: FormData,
+): Promise<AuthResult> {
+	const supabase = await createClient();
+
+	const fullName = formData.get("full_name") as string;
+
+	if (!fullName) {
+		return { error: "Full name is required." };
+	}
+
+	const { error } = await supabase.auth.updateUser({
+		data: { full_name: fullName },
+	});
+
+	if (error) {
+		return { error: error.message };
+	}
+
+	return { success: "Profile updated successfully." };
+}
+
 export async function resetPassword(
 	_prevState: AuthResult,
 	formData: FormData,

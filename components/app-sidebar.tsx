@@ -81,7 +81,7 @@ const data = {
 			url: "#",
 			icon: <Settings2Icon />,
 			items: [
-				{ title: "General", url: "#" },
+				{ title: "General", url: "/profile" },
 				{ title: "Team", url: "#" },
 				{ title: "Billing", url: "#" },
 				{ title: "Limits", url: "#" },
