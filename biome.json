@@ -8,6 +8,28 @@
 	"files": {
 		"ignoreUnknown": false
 	},
+	"overrides": [
+		{
+			"includes": ["components/ui/**"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noDocumentCookie": "off",
+						"noDoubleEquals": "off",
+						"noArrayIndexKey": "off"
+					},
+					"a11y": {
+						"useFocusableInteractive": "off",
+						"useSemanticElements": "off",
+						"useKeyWithClickEvents": "off"
+					},
+					"correctness": {
+						"useExhaustiveDependencies": "off"
+					}
+				}
+			}
+		}
+	],
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab"
