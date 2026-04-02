@@ -24,7 +24,7 @@ export async function getUsers(): Promise<{
 }> {
 	const currentUser = await getAuthUser();
 
-	if (currentUser.role !== "admin") {
+	if (!currentUser || currentUser.role !== "admin") {
 		return { data: [], error: "Unauthorized. Admin access required." };
 	}
 
@@ -55,7 +55,7 @@ export async function updateUserRole(
 ): Promise<AdminActionResult> {
 	const currentUser = await getAuthUser();
 
-	if (currentUser.role !== "admin") {
+	if (!currentUser || currentUser.role !== "admin") {
 		return { error: "Unauthorized. Admin access required." };
 	}
 
@@ -92,7 +92,7 @@ export async function deleteUser(
 ): Promise<AdminActionResult> {
 	const currentUser = await getAuthUser();
 
-	if (currentUser.role !== "admin") {
+	if (!currentUser || currentUser.role !== "admin") {
 		return { error: "Unauthorized. Admin access required." };
 	}
 
