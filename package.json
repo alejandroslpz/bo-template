@@ -7,6 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "biome check --write",
+		"test": "vitest",
+		"test:run": "vitest run",
 		"commit": "cz",
 		"prepare": "husky"
 	},
@@ -45,16 +47,21 @@
 		"@commitlint/cli": "^20.4.2",
 		"@commitlint/config-conventional": "^20.4.2",
 		"@tailwindcss/postcss": "^4",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.2",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
+		"@vitejs/plugin-react": "^6.0.1",
 		"commitizen": "^4.3.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"eslint": "^9",
 		"eslint-config-next": "16.1.6",
 		"husky": "^9.1.7",
+		"jsdom": "^29.0.1",
 		"lint-staged": "^16.2.7",
 		"tailwindcss": "^4",
-		"typescript": "^5"
+		"typescript": "^5",
+		"vitest": "^4.1.2"
 	}
 }

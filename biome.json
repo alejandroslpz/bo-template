@@ -28,6 +28,16 @@
 					}
 				}
 			}
+		},
+		{
+			"includes": ["**/__tests__/**", "**/*.test.*"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"useValidAriaRole": "off"
+					}
+				}
+			}
 		}
 	],
 	"formatter": {
